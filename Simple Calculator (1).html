@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simple Calculator</title>
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Verdana, Arial, sans-serif;
+  background: linear-gradient(135deg, #1f3b73, #5a2d82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#calc {
+  width: 340px;
+  max-width: 90%;
+  padding: 25px 28px 28px 28px;
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+}
+
+h1 {
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-size: 26px;
+  color: #1f3b73;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #444;
+}
+
+input, select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  border: 2px solid #b8bfd6;
+  border-radius: 6px;
+}
+input:focus, select:focus {
+  outline: none;
+  border-color: #5a2d82;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+button {
+  flex: 1;
+  padding: 11px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#calcBtn { background-color: #5a2d82; }
+#calcBtn:hover { background-color: #44206a; }
+#clearBtn { background-color: #888; }
+#clearBtn:hover { background-color: #666; }
+
+#result {
+  margin-top: 22px;
+  padding: 14px;
+  min-height: 24px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #1f3b73;
+  background-color: #eef1fa;
+  border: 2px dashed #b8bfd6;
+  border-radius: 8px;
+}
+#result.error {
+  color: #c0392b;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="calc">
+  <h1>Calculator</h1>
+
+  <label for="num1">First number</label>
+  <input type="number" id="num1" placeholder="Enter a number">
+
+  <label for="op">Operation</label>
+  <select id="op">
+    <option value="add">Addition ( + )</option>
+    <option value="sub">Subtraction ( - )</option>
+    <option value="mul">Multiplication ( × )</option>
+    <option value="div">Division ( ÷ )</option>
+  </select>
+
+  <label for="num2">Second number</label>
+  <input type="number" id="num2" placeholder="Enter a number">
+
+  <div class="buttons">
+    <button type="button" id="calcBtn" onclick="calculate()">Calculate</button>
+    <button type="button" id="clearBtn" onclick="clearAll()">Clear</button>
+  </div>
+
+  <div id="result">Result will show here</div>
+</div>
+
+<script>
+function calculate() {
+  var a = document.getElementById("num1").value;
+  var b = document.getElementById("num2").value;
+  var op = document.getElementById("op").value;
+  var box = document.getElementById("result");
+
+  box.className = "";
+
+  // check if both boxes are filled
+  if (a === "" || b === "") {
+    box.className = "error";
+    box.innerHTML = "Please enter both numbers!";
+    return;
+  }
+
+  a = parseFloat(a);
+  b = parseFloat(b);
+  var ans;
+
+  if (op == "add") {
+    ans = a + b;
+  } else if (op == "sub") {
+    ans = a - b;
+  } else if (op == "mul") {
+    ans = a * b;
+  } else {
+    if (b == 0) {
+      box.className = "error";
+      box.innerHTML = "Cannot divide by zero!";
+      return;
+    }
+    ans = a / b;
+  }
+
+  // round off long decimals like 0.1 + 0.2
+  ans = Math.round(ans * 1000000) / 1000000;
+  box.innerHTML = "Result = " + ans;
+}
+
+function clearAll() {
+  document.getElementById("num1").value = "";
+  document.getElementById("num2").value = "";
+  document.getElementById("op").value = "add";
+  document.getElementById("result").className = "";
+  document.getElementById("result").innerHTML = "Result will show here";
+}
+</script>
+
+</body>
+</html>
